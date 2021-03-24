@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+from BookIndex.API.views import DocsView, BookApiView
+from BookIndex.views import AddGoogleBookView, index
+
+router = routers.DefaultRouter(trailing_slash=True)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
+    path('db/', AddGoogleBookView.as_view(), name='google_book'),
+    path('api/', DocsView.as_view(), name='list'),
+    path('api/books/', BookApiView.as_view(), name='book'),
 ]
+
+urlpatterns += router.urls
